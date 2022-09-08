@@ -9,12 +9,16 @@ using System.Threading.Tasks;
 
 namespace Project.Service
 {
+    
     public class VehicleDbContext : DbContext
     {
-        public VehicleDbContext(): base()
+        public VehicleDbContext( DbContextOptions<VehicleDbContext> options): base(options)
         {   
         }
         public DbSet<VehicleMake> VehicleMake { get; set; }
         public DbSet<VehicleModel> VehicleModel { get; set; }
+
     }
+
+  
 }
