@@ -8,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseSqlServer("Data Source=DESKTOP-N88CHJ5\\SQLEXPRESS;Initial Catalog=VehicleDatabase;Integrated Security=True;"));
+builder.Services.AddTransient<IVehicleService, VehicleService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
