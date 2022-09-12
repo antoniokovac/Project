@@ -10,33 +10,33 @@ namespace Project.Service
     public interface IVehicleService
     {
         // Make CRUD
-        public List<VehicleMake> GetAllVehicleMakes(
+        public List<VehicleMakeDTO> GetAllVehicleMakes(
             int page = 1,
             int pageSize = 10,
             string filter = "",
             string sort = "asc");
 
-        public Task<VehicleMake> GetVehicleMakeAsync(Guid id);
+        public Task<VehicleMakeDTO> GetVehicleMakeAsync(Guid id);
 
 
-        public Task<bool> CreateVehicleMakeAsync(VehicleMake vehicleMake);
+        public Task<bool> CreateVehicleMakeAsync(VehicleMakeDTO makeDto);
 
-        public Task<bool> UpdateVehicleMakeAsync(VehicleMake vehicleMake);
+        public Task<bool> UpdateVehicleMakeAsync(VehicleMakeDTO makeDto);
 
         public Task<bool> DeleteVehicleMakeAsync(Guid id);
 
         // Model CRUD
-        public List<VehicleModel> GetAllVehicleModels(
+        public List<VehicleModelDTO> GetAllVehicleModels(
             int page = 1,
             int pageSize = 10,
             string filter = "",
             string sort = "asc");
 
-        public Task<VehicleModel> GetVehicleModelAsync(Guid id);
+        public Task<VehicleModelDTO> GetVehicleModelAsync(Guid id);
 
-        public Task<bool> CreateVehicleModelAsync(VehicleModel vehicleModel);
+        public Task<bool> CreateVehicleModelAsync(VehicleModelDTO modelDto);
 
-        public Task<bool> UpdateVehicleModelAsync(VehicleModel vehicleModel);
+        public Task<bool> UpdateVehicleModelAsync(VehicleModelDTO modelDto);
 
         public Task<bool> DeleteVehicleModelAsync(Guid id);
 

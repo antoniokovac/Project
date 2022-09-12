@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Project.MVC.AutoMapperProfiles;
 using Project.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,11 @@ builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseSqlServer("Data Source=DESKTOP-N88CHJ5\\SQLEXPRESS;Initial Catalog=VehicleDatabase;Integrated Security=True;"));
 builder.Services.AddTransient<IVehicleService, VehicleService>();
 
+
+builder.Services.AddAutoMapper(options => 
+{
+    options.AddProfile(new AutoMapperProfile());
+});
 
 
 var app = builder.Build();
