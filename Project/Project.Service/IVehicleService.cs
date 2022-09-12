@@ -10,7 +10,11 @@ namespace Project.Service
     public interface IVehicleService
     {
         // Make CRUD
-        public List<VehicleMake> GetAllVehicleMakes();
+        public List<VehicleMake> GetAllVehicleMakes(
+            int page = 1,
+            int pageSize = 10,
+            string filter = "",
+            string sort = "asc");
 
         public Task<VehicleMake> GetVehicleMakeAsync(Guid id);
 
@@ -22,7 +26,11 @@ namespace Project.Service
         public Task<bool> DeleteVehicleMakeAsync(Guid id);
 
         // Model CRUD
-        public List<VehicleModel> GetAllVehicleModels();
+        public List<VehicleModel> GetAllVehicleModels(
+            int page = 1,
+            int pageSize = 10,
+            string filter = "",
+            string sort = "asc");
 
         public Task<VehicleModel> GetVehicleModelAsync(Guid id);
 
