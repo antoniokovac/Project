@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Service.Models;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Project.Service
 {
@@ -50,7 +45,6 @@ namespace Project.Service
         /// <param name="id">Vehicle make id.</param>
         /// <returns>Vehicle make base model.</returns>
         public async Task<VehicleMake> GetVehicleMakeAsync(Guid id)
-
         {
             return await vehicleDbContext.Set<VehicleMake>().FindAsync(id);
         }

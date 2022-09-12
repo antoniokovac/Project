@@ -10,7 +10,7 @@ namespace Project.Service.Models
     public class VehicleMake
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(50)]

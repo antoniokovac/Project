@@ -11,7 +11,7 @@ namespace Project.Service.Models
     public class VehicleModel
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -22,7 +22,7 @@ namespace Project.Service.Models
         public string Abrv { get; set; }
 
         [Required]
-        public int VehicleMakeId { get; set; }
+        public Guid VehicleMakeId { get; set; }
 
         [ForeignKey("VehicleMakeId")]
         public VehicleMake VehicleMake { get; set; }
