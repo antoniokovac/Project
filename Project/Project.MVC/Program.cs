@@ -1,7 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
+using Ninject;
 using Project.MVC.AutoMapperProfiles;
 using Project.Service;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseSqlServer("Data Source=DESKTOP-N88CHJ5\\SQLEXPRESS;Initial Catalog=VehicleDatabase;Integrated Security=True;"));
 builder.Services.AddTransient<IVehicleService, VehicleService>();
 
+
+var kernel = new StandardKernel();
+kernel.Load(Assembly.GetExecutingAssembly());
 
 builder.Services.AddAutoMapper(options => 
 {
