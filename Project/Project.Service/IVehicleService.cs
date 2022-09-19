@@ -17,12 +17,8 @@ namespace Project.Service
             string sort = "asc");
 
         public Task<VehicleMakeDTO> GetVehicleMakeAsync(Guid id);
-
-
         public Task<bool> CreateVehicleMakeAsync(VehicleMakeDTO makeDto);
-
         public Task<bool> UpdateVehicleMakeAsync(VehicleMakeDTO makeDto);
-
         public Task<bool> DeleteVehicleMakeAsync(Guid id);
 
         // Model CRUD
@@ -33,12 +29,8 @@ namespace Project.Service
             string sort = "asc");
 
         public Task<VehicleModelDTO> GetVehicleModelAsync(Guid id);
-
         public Task<bool> CreateVehicleModelAsync(VehicleModelDTO modelDto);
-
         public Task<bool> UpdateVehicleModelAsync(VehicleModelDTO modelDto);
-
         public Task<bool> DeleteVehicleModelAsync(Guid id);
-
     }
 }

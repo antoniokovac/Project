@@ -9,7 +9,6 @@ namespace Project.Service
     {
         private readonly VehicleDbContext vehicleDbContext;
         private readonly IMapper mapper;
-
         public VehicleService(VehicleDbContext vehicleDbContext, IMapper mapper)
         {
             this.vehicleDbContext = vehicleDbContext;
@@ -101,7 +100,6 @@ namespace Project.Service
         /// <param name="filter">Filtering.</param>
         /// <param name="sort">Sort direction.</param>
         /// <returns>Sorted, filtered and paged list of vehicle models.</returns>
-
         public List<VehicleModelDTO> GetAllVehicleModels(
             int page = 1,
             int pageSize = 10,
