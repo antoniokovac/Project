@@ -15,8 +15,8 @@ namespace Project.Service
         public VehicleDbContext( DbContextOptions<VehicleDbContext> options): base(options)
         {   
         }
-        public DbSet<VehicleMake> VehicleMake { get; set; }
-        public DbSet<VehicleModel> VehicleModel { get; set; }
+        public DbSet<VehicleMakeService> VehicleMake { get; set; }
+        public DbSet<VehicleModelService> VehicleModel { get; set; }
 
     }
 

@@ -8,7 +8,8 @@ namespace Project.MVC.NinjectBindings
     {
         public override void Load()
         {
-            Bind<IVehicleService>().To<VehicleService>().InTransientScope();
+            Bind<IVehicleModelService>().To<VehicleModelService>().InTransientScope();
+            Bind<IVehicleMakeService>().To<VehicleMakeService>().InTransientScope();
         }
     }
 }
