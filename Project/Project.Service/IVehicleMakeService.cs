@@ -9,10 +9,7 @@ namespace Project.Service
 {
     public interface IVehicleMakeService
     {
-        public List<VehicleMakeDTO> GetAllVehicleMakes(
-            Filtering filter,
-            Paging paging,
-            Sorting sort);
+        public List<VehicleMakeDTO> GetAllVehicleMakes( QueryParameters query);
 
         public Task<VehicleMakeDTO> GetVehicleMakeAsync(Guid id);
         public Task<bool> CreateVehicleMakeAsync(VehicleMakeDTO makeDto);

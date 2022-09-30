@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Project.Service.Models;
-using Project.Service.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Project.Service
 {
@@ -29,20 +24,17 @@ namespace Project.Service
         /// <param name="filter">Filtering.</param>
         /// <param name="sort">Sort direction.</param>
         /// <returns>Sorted, filtered and paged list of vehicle models.</returns>
-        public List<VehicleModelDTO> GetAllVehicleModels(
-            Filtering filter,
-            Paging paging,
-            Sorting sort)
+        public List<VehicleModelDTO> GetAllVehicleModels(QueryParameters query)
         {
             var filterSet = vehicleDbContext.Set<VehicleModel>()
                 .AsNoTracking()
-                .Where(x => x.VehicleMake.Name.Contains(filter.Filter));
+                .Where(x => x.VehicleMake.Name.Contains(query.Filter));
 
-            var orderedSet = Equals(sort.Sort, SortDirection.Ascending) ? filterSet.OrderBy(y => y.Name) : filterSet.OrderByDescending(z => z.Name);
+            var orderedSet = Equals(query.Sort, SortOrder.Ascending) ? filterSet.OrderBy(y => y.Name) : filterSet.OrderByDescending(z => z.Name);
 
             var pagedSet = orderedSet
-                .Skip((paging.Page - 1) * paging.PageSize)
-                .Take(paging.PageSize);
+                .Skip((query.Page - 1) * query.PageSize)
+                .Take(query.PageSize);
             return mapper.Map<List<VehicleModelDTO>>(pagedSet);
         }
 

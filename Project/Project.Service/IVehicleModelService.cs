@@ -9,10 +9,7 @@ namespace Project.Service
 {
     public interface IVehicleModelService
     {
-        public List<VehicleModelDTO> GetAllVehicleModels(
-            Filtering filter,
-            Paging paging,
-            Sorting sort;
+        public List<VehicleModelDTO> GetAllVehicleModels(QueryParameters query);
 
         public Task<VehicleModelDTO> GetVehicleModelAsync(Guid id);
         public Task<bool> CreateVehicleModelAsync(VehicleModelDTO modelDto);
