@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ninject;
 using Project.MVC.Models;
 using Project.Service;
 using Project.Service.Models;
@@ -7,23 +8,34 @@ using System.Text.Json;
 
 namespace Project.MVC.Controllers
 {
+
     public class VehicleMakeController : Controller
     {
-        private readonly ILogger<VehicleMakeController> _logger;
         private readonly IVehicleMakeService _service;
+        private readonly IVehicleModelService _modelService;
 
-        public VehicleMakeController(ILogger<VehicleMakeController> logger, IVehicleMakeService service)
+        public VehicleMakeController(IVehicleMakeService makeService,
+            IVehicleModelService modelService)
         {
-            _logger = logger;
-            _service = service;
+            _service = makeService;
+            _modelService = modelService;
         }
 
         [HttpGet]
-        public IActionResult Index(/*[FromBody] QueryParameters query*/)
+        public IActionResult Index( string filter,
+            int page = 1,
+            int pageSize = 10,
+            SortOrder sortOrder = SortOrder.Ascending,
+            SortBy sortBy = SortBy.Name)
         {
-            var query = new QueryParameters();
-            var vehicleMakes = _service.GetAllVehicleMakes(query);
-            return View(vehicleMakes);
+            if (string.IsNullOrWhiteSpace(filter)) 
+            {
+                filter = string.Empty;
+            }
+            var pagedResult = new PageResult<VehicleMakeDTO>(filter, page, pageSize, sortOrder, sortBy);
+            var vehicleMakes = _service.GetAllVehicleMakes(pagedResult.Query);
+            pagedResult.Data = vehicleMakes;
+            return View(pagedResult);
         }
 
         [HttpGet]
@@ -38,7 +50,7 @@ namespace Project.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateVehicleMake([FromBody] VehicleMakeDTO make)
+        public async Task<IActionResult> CreateVehicleMake( VehicleMakeDTO make)
         {
 
             var vehicleMake = await _service.CreateVehicleMakeAsync(make);
@@ -46,30 +58,52 @@ namespace Project.MVC.Controllers
             {
                 return BadRequest();
             }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult CreateVehicleMake()
+        {
+
+            var vehicleMake = new VehicleMakeDTO();
             return View(vehicleMake);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateVehicleMake([FromBody] VehicleMakeDTO make)
+        [HttpGet]
+        public async Task<IActionResult> UpdateVehicleMake(Guid id)
+        {
+            var vehicleMake = await _service.GetVehicleMakeAsync(id);
+
+            if (vehicleMake is null)
+            {
+                return StatusCode(204);
+            }
+            return View(vehicleMake);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateVehicleMake(VehicleMakeDTO make)
         {
             var isUpdated = await _service.UpdateVehicleMakeAsync(make);
             if (!isUpdated)
             {
                 return BadRequest();
             }
-            return View(isUpdated);
+            return RedirectToAction(nameof(Index));
         }
+        
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteVehicleMake([FromQuery] Guid id)
+        [HttpGet]
+        public async Task<IActionResult> DeleteVehicleMake( Guid id)
         {
 
             var isDeleted = await _service.DeleteVehicleMakeAsync(id);
-            if (!isDeleted == false)
+            if (!isDeleted)
             {
                 return StatusCode(204);
             }
-            return View(isDeleted);
+            return RedirectToAction(nameof(Index));
         }
 
     }

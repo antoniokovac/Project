@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Project.Service.Models;
-using System.Data.SqlClient;
 
 namespace Project.Service
 {
@@ -29,9 +28,8 @@ namespace Project.Service
             var filterSet = vehicleDbContext.Set<VehicleModel>()
                 .AsNoTracking()
                 .Where(x => x.VehicleMake.Name.Contains(query.Filter));
-
-            var orderedSet = Equals(query.Sort, SortOrder.Ascending) ? filterSet.OrderBy(y => y.Name) : filterSet.OrderByDescending(z => z.Name);
-
+            Func<VehicleModel, string> sortFunction = Equals(query.SortBy, SortBy.Name) ? x => x.Name : x => x.Abrv;
+            var orderedSet = Equals(query.SortOrder, SortOrder.Ascending) ? filterSet.OrderBy(sortFunction) : filterSet.OrderByDescending(sortFunction);
             var pagedSet = orderedSet
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize);
@@ -45,7 +43,7 @@ namespace Project.Service
         /// <returns>Vehicle model base model.</returns>
         public async Task<VehicleModelDTO> GetVehicleModelAsync(Guid id)
         {
-            var model = await vehicleDbContext.Set<VehicleModelService>().FindAsync(id);
+            var model = await vehicleDbContext.Set<VehicleModel>().FindAsync(id);
             return mapper.Map<VehicleModelDTO>(model);
         }
 
@@ -56,8 +54,8 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion</returns>
         public async Task<bool> CreateVehicleModelAsync(VehicleModelDTO modelDto)
         {
-            var model = mapper.Map<VehicleModelService>(modelDto);
-            await vehicleDbContext.Set<VehicleModelService>().AddAsync(model);
+            var model = mapper.Map<VehicleModel>(modelDto);
+            await vehicleDbContext.Set<VehicleModel>().AddAsync(model);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
@@ -69,8 +67,8 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion.</returns>
         public async Task<bool> UpdateVehicleModelAsync(VehicleModelDTO modelDto)
         {
-            var model = mapper.Map<VehicleModelService>(modelDto);
-            vehicleDbContext.Set<VehicleModelService>().Update(model);
+            var model = mapper.Map<VehicleModel>(modelDto);
+            vehicleDbContext.Set<VehicleModel>().Update(model);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
@@ -82,11 +80,12 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion</returns>
         public async Task<bool> DeleteVehicleModelAsync(Guid id)
         {
-            var model = await vehicleDbContext.Set<VehicleModelService>().FindAsync(id);
-            vehicleDbContext.Set<VehicleModelService>().Remove(model);
+            var model = await vehicleDbContext.Set<VehicleModel>().FindAsync(id);
+            vehicleDbContext.Set<VehicleModel>().Remove(model);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
+
     }
 }
 

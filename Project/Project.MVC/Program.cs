@@ -11,16 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseSqlServer("Data Source=DESKTOP-N88CHJ5\\SQLEXPRESS;Initial Catalog=VehicleDatabase;Integrated Security=True;"));
-//builder.Services.AddTransient<IVehicleModelService, VehicleModelService>();
-//builder.Services.AddTransient<IVehicleMakeService, VehicleMakeService>();
+builder.Services.AddTransient<IVehicleModelService, VehicleModelService>();
+builder.Services.AddTransient<IVehicleMakeService, VehicleMakeService>();
 
-var kernel = new StandardKernel();
-kernel.Load(Assembly.GetExecutingAssembly());
 
-builder.Services.AddAutoMapper(options => 
-{
-    options.AddProfile(new AutoMapperProfile());
-});
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
@@ -42,6 +37,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=VehicleMake}/{action=Index}/{id?}",
+    defaults: new {controller="VehicleMake",action="Index"});
 
 app.Run();

@@ -2,26 +2,74 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<VehicleMake>
+@model PageResult<VehicleModelDTO>
+@{
+	var vehicleModels = Model.Data;
+	var query = Model.Query;
+}
 <div class="row">
-    <table class="arrowes-table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Abrv</th>
-            </tr>
-        </thead>
+	<h1>Vehicle Model</h1>
 
-        <tbody>
-            @foreach (var vehicleMake in Model)
-            {
-                <tr>
-                    <td>@vehicleMake.Id</td>
-                    <td>@vehicleMake.Name</td>
-                    <td>@vehicleMake.Abrv</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+</div>
+<div class="row">
+	<table class="arrowes-table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Abrv</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+
+
+		<tbody>
+			@foreach (var vehicleModel in vehicleModels)
+			{
+				<tr class="flex-row">
+					<td>@vehicleModel.Id</td>
+					<td>@vehicleModel.Name</td>
+					<td>@vehicleModel.Abrv</td>
+
+					<td>
+						@Html.ActionLink("Edit", "UpdateVehicleModel", new { id=vehicleModel.Id},new {@class="text-dark"})
+					</td>
+					<td>
+						@Html.ActionLink("Delete", "DeleteVehicleModel", new { id=vehicleModel.Id}, new {@class="text-dark"})
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<div class="row">
+	@{
+		if (query.Page > 1)
+		{
+			<div class="col">
+				<a>
+					@Html.ActionLink($"{query.Page - 1}", "Index", new { filter=query.Filter, page = query.Page - 1, pageSize = query.PageSize, sort = query.SortOrder},new {@class="text-dark"})
+				</a>
+			</div>
+		}
+	}
+	<div class="col">
+		<a>
+			@Html.ActionLink($"{query.Page}", "Index", new { filter=query.Filter, page = query.Page, pageSize = query.PageSize, sort = query.SortOrder})
+		</a>
+	</div>
+
+	@{
+		if (vehicleModels.Count() == query.PageSize)
+		{
+			<div class="col">
+				<a>
+					@Html.ActionLink($"{query.Page + 1}", "Index", new { filter=query.Filter, page = query.Page + 1, pageSize = query.PageSize, sort = query.SortOrder},new {@class="text-dark"})
+				</a>
+			</div>
+		}
+
+	}
 </div>

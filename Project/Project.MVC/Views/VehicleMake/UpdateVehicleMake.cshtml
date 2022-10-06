@@ -1,0 +1,33 @@
+﻿@using Project.Service.Models
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model VehicleMakeDTO
+<head>
+	<title>Update Vehicle Make</title>
+</head>
+<body>
+	<form asp-action="UpdateVehicleMake">
+		<div class="form-group">
+			<input asp-for="Id" required />
+		</div>
+		<div class="form-group">
+			<label asp-for="Name">Name:</label>
+			<input asp-for="Name" required />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Abrv">Abrevation:</label>
+			<input asp-for="Abrv" required />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Add" class="btn" />
+		</div>
+
+	</form>
+	<div>
+		<a class="nav-link text-dark" asp-controller="VehicleMake" asp-action="Index">Back to list</a>
+	</div>
+</body>

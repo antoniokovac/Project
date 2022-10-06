@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Project.Service.Models;
-using System.Data.SqlClient;
 
 namespace Project.Service
 {
@@ -29,7 +28,8 @@ namespace Project.Service
                 .AsNoTracking()
                 .Where(x => x.Name.Contains(query.Filter));
 
-            var orderedSet = Equals(query.Sort, SortOrder.Ascending)  ? filterSet.OrderBy(y => y.Name) : filterSet.OrderByDescending(z => z.Name);
+            Func<VehicleMake, string> sortFunction = Equals(query.SortBy, SortBy.Name) ? x => x.Name : x => x.Abrv;
+            var orderedSet = Equals(query.SortOrder, SortOrder.Ascending)  ? filterSet.OrderBy(sortFunction) : filterSet.OrderByDescending(sortFunction);
 
             var pagedSet = orderedSet
                 .Skip((query.Page - 1) * query.PageSize)
@@ -44,7 +44,7 @@ namespace Project.Service
         /// <returns>Vehicle make base model.</returns>
         public async Task<VehicleMakeDTO> GetVehicleMakeAsync(Guid id)
         {
-            var make = await vehicleDbContext.Set<VehicleMakeService>().FindAsync(id);
+            var make = await vehicleDbContext.Set<VehicleMake>().FindAsync(id);
             return mapper.Map<VehicleMakeDTO>(make);
         }
 
@@ -55,8 +55,8 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion</returns>
         public async Task<bool> CreateVehicleMakeAsync(VehicleMakeDTO makeDto)
         {
-            var make = mapper.Map<VehicleMakeService>(makeDto);
-            await vehicleDbContext.Set<VehicleMakeService>().AddAsync(make);
+            var make = mapper.Map<VehicleMake>(makeDto);
+            await vehicleDbContext.Set<VehicleMake>().AddAsync(make);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
@@ -68,8 +68,8 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion.</returns>
         public async Task<bool> UpdateVehicleMakeAsync(VehicleMakeDTO makeDto)
         {
-            var make = mapper.Map<VehicleMakeService>(makeDto);
-            vehicleDbContext.Set<VehicleMakeService>().Update(make);
+            var make = mapper.Map<VehicleMake>(makeDto);
+            vehicleDbContext.Set<VehicleMake>().Update(make);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
@@ -81,8 +81,8 @@ namespace Project.Service
         /// <returns>True if success or throws excpetion</returns>
         public async Task<bool> DeleteVehicleMakeAsync(Guid id)
         {
-            var make = await vehicleDbContext.Set<VehicleMakeService>().FindAsync(id);
-            vehicleDbContext.Set<VehicleMakeService>().Remove(make);
+            var make = await vehicleDbContext.Set<VehicleMake>().FindAsync(id);
+            vehicleDbContext.Set<VehicleMake>().Remove(make);
             await vehicleDbContext.SaveChangesAsync();
             return true;
         }
