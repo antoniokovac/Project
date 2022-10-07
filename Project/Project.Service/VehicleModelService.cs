@@ -27,7 +27,7 @@ namespace Project.Service
         {
             var filterSet = vehicleDbContext.Set<VehicleModel>()
                 .AsNoTracking()
-                .Where(x => x.VehicleMake.Name.Contains(query.Filter));
+                .Where(x => x.Name.Contains(query.Filter));
             Func<VehicleModel, string> sortFunction = Equals(query.SortBy, SortBy.Name) ? x => x.Name : x => x.Abrv;
             var orderedSet = Equals(query.SortOrder, SortOrder.Ascending) ? filterSet.OrderBy(sortFunction) : filterSet.OrderByDescending(sortFunction);
             var pagedSet = orderedSet

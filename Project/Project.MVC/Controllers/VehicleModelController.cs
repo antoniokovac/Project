@@ -16,12 +16,16 @@ namespace Project.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string filter = "",
+        public IActionResult Index(string filter,
             int page = 1,
             int pageSize = 10,
             SortOrder sortOrder = SortOrder.Ascending,
             SortBy sortBy = SortBy.Name)
         {
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                filter = string.Empty;
+            }
             var pagedResult = new PageResult<VehicleModelDTO>(filter, page, pageSize, sortOrder, sortBy);
             var vehicleModels = _service.GetAllVehicleModels(pagedResult.Query);
             pagedResult.Data = vehicleModels;
@@ -58,18 +62,6 @@ namespace Project.MVC.Controllers
             {
                 return BadRequest();
             }
-            for(int i = 0; i < 100; i++)
-            {
-                var test = new VehicleModelDTO
-                {
-                    Id = Guid.NewGuid(),
-                    Name = $"{model.Name}{i}",
-                    Abrv = $"{model.Abrv}{i}",
-                    VehicleMakeId = new Guid("0977c6df-42d4-401d-b548-5bc9250fef16")
-                };
-                 _= await this._service.CreateVehicleModelAsync(test);
-            }
-
             return RedirectToAction(nameof(Index));
         }
 

@@ -12,12 +12,26 @@
 
 </div>
 <div class="row">
+	@using (Html.BeginForm("Index", "VehicleModel", FormMethod.Get))
+	{
+		@Html.TextBox("filter")<input type="submit" value="Search" />
+	}
+</div>
+<div class="row">
 	<table class="arrowes-table table-striped">
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Name</th>
-				<th>Abrv</th>
+				<th>
+							@{var sortOrderName = Equals(query.SortOrder, SortOrder.Ascending) ? SortOrder.Descending : SortOrder.Ascending;}
+							@Html.ActionLink("Name", "Index", new { filter = query.Filter, page = query.Page, pageSize = query.PageSize, sortOrder = sortOrderName, sortBy = SortBy.Name }, new { @class = "text-dark" })
+				</th>
+				<th>
+					@{
+						var sortOrderAbrv = Equals(query.SortOrder, SortOrder.Ascending) ? SortOrder.Descending : SortOrder.Ascending;
+					}
+					@Html.ActionLink("Abrv", "Index", new { filter = query.Filter, page = query.Page, pageSize = query.PageSize, sortOrder = sortOrderAbrv, sortBy = SortBy.Abrv }, new { @class = "text-dark" })
+				</th>
 				<th></th>
 				<th></th>
 			</tr>
