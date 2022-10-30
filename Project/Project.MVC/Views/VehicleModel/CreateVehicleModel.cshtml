@@ -1,0 +1,39 @@
+﻿@using Project.Service.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model VehicleModelDTO
+
+<head>
+	<title>Create Vehicle Model</title>
+</head>
+<body>
+	<form asp-action="CreateVehicleModel">
+		<div class="form-group" hidden>
+			<input asp-for="Id"  />
+		</div>
+		<div class="form-group">
+			<label asp-for="VehicleMakeId">Vehicle Make Id:</label>
+			<input asp-for="VehicleMakeId" readonly />
+		</div>
+		<div class="form-group">
+			<label asp-for="Name">Name:</label>
+			<input asp-for="Name" required />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Abrv">Abrevation:</label>
+			<input asp-for="Abrv" required />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Add" class="btn" />
+		</div>
+
+
+	</form>
+	<div>
+		<a class="nav-link text-dark" asp-controller="VehicleMake" asp-action="Index">Back to list</a>
+	</div>
+</body>
+
