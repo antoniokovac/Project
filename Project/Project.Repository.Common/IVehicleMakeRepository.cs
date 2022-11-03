@@ -16,7 +16,7 @@ namespace Project.Repository.Common
         public Task<bool> CreateVehicleMake(VehicleMake vehicleMake);
 
 
-        public bool UpdateVehicleMake(VehicleMake vehicleMake) ;
+        public Task<bool> UpdateVehicleMake(VehicleMake vehicleMake) ;
 
 
         public Task<bool> DeleteVehicleMake(Guid id) ;

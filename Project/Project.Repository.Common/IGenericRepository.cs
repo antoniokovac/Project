@@ -54,5 +54,8 @@ namespace Project.Repository.Common
         /// <param name="model">Entity to be deleted</param>
         /// <returns>Returns true if entity is deleted, false otherwise</returns>
         public bool Delete<T>(T model) where T : class;
+
+        public Task<int> SaveChangesAsync();
     }
+
 }

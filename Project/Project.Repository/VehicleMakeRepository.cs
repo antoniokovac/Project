@@ -14,7 +14,6 @@ namespace Project.Repository
     public class VehicleMakeRepository : IVehicleMakeRepository
     {
         private readonly IGenericRepository repository;
-
         public VehicleMakeRepository(IGenericRepository repository)
         {
             this.repository = repository;
@@ -34,30 +33,39 @@ namespace Project.Repository
             var vehicle = await repository.Get<VehicleMake>(id);
             return vehicle;
         }
-    
+
         public async Task<bool> CreateVehicleMake(VehicleMake vehicleMake)
         {
-            var isCreated = await repository.Create<VehicleMake>(vehicleMake);
-
-            return isCreated;
+            using (var unitOfWork = new UnitOfWork(repository)) 
+            {
+                var isCreated =  await unitOfWork.AddAsync<VehicleMake>(vehicleMake);
+                await unitOfWork.SaveChangesAsync();
+                return isCreated;
+            }
         }
 
-        public bool UpdateVehicleMake(VehicleMake vehicleMake)
+        public async Task<bool> UpdateVehicleMake(VehicleMake vehicleMake)
         {
-            var isUpdated = repository.Update<VehicleMake>(vehicleMake);
-
-            return isUpdated;
+            using (var unitOfWork = new UnitOfWork(repository))
+            {
+                var isUpdated =  unitOfWork.Update<VehicleMake>(vehicleMake);
+                await unitOfWork.SaveChangesAsync();
+                return isUpdated;
+            }
         }
 
         public async Task<bool> DeleteVehicleMake(Guid id) 
         {
-            var make = await GetVehicleMake(id);
-            if (make == null)
-            {
-                return false;
+            using (var unitOfWork = new UnitOfWork(repository))
+            { 
+                var make = await GetVehicleMake(id);
+                if (make is null)
+                {
+                    return false;
+                }
+                var isDelted = unitOfWork.Delete<VehicleMake>(make);
+                return isDelted;
             }
-            var isDelted =  repository.Delete<VehicleMake>(make);
-            return isDelted;
         }
 
     }

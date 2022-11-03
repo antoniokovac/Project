@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project.Repository
 {
-    public class VehicleModelRepository
+    public class VehicleModelRepository : IVehicleModelRepository
     {
         private readonly IGenericRepository repository;
 
@@ -55,11 +55,14 @@ namespace Project.Repository
         /// <typeparam name="T">Type of entity that will be returned</typeparam>
         /// <param name="entity">Entity to be added</param>
         /// <returns>Returns true if entity is added, false otherwise</returns>
-        public async Task<bool> CreateVehicleModel(VehicleModel veihlceModel)
+        public async Task<bool> CreateVehicleModel(VehicleModel vehicleModel)
         {
-            var isCreated = await repository.Create<VehicleModel>(veihlceModel);
-
-            return isCreated;
+            using (var unitOfWork = new UnitOfWork(repository))
+            {
+                var isCreated = await unitOfWork.AddAsync<VehicleModel>(vehicleModel);
+                await unitOfWork.SaveChangesAsync();
+                return isCreated;
+            }
         }
 
         /// <summary>
@@ -68,11 +71,14 @@ namespace Project.Repository
         /// <typeparam name="T">Type of entity that will be returned</typeparam>
         /// <param name="entity">Entity to be updated</param>
         /// <returns>Returns true if entity is updated, false otherwise</returns>
-        public bool UpdateVehicleModel(VehicleModel veihlceModel)
+        public async Task<bool> UpdateVehicleModel(VehicleModel vehicleModel)
         {
-            var isUpdated = repository.Update<VehicleModel>(veihlceModel);
-
-            return isUpdated;
+            using (var unitOfWork = new UnitOfWork(repository))
+            {
+                var isUpdated = unitOfWork.Update<VehicleModel>(vehicleModel);
+                await unitOfWork.SaveChangesAsync();
+                return isUpdated;
+            }
         }
 
         /// <summary>
@@ -83,13 +89,16 @@ namespace Project.Repository
         /// <returns>Returns true if entity is deleted, false otherwise</returns>
         public async Task<bool> DeleteVehicleModel(Guid id)
         {
-            var model = await GetVehicleModel(id);
-            if (model == null)
+            using (var unitOfWork = new UnitOfWork(repository))
             {
-                return false;
+                var model = await GetVehicleModel(id);
+                if (model is null)
+                {
+                    return false;
+                }
+                var isDelted = unitOfWork.Delete<VehicleModel>(model);
+                return isDelted;
             }
-            var isDelted = repository.Delete<VehicleModel>(model);
-            return isDelted;
         }
 
     }

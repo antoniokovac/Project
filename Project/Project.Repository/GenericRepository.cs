@@ -85,5 +85,10 @@ namespace Project.Repository
 
             return vehicle is not null;
         }
+
+        public async Task<int> SaveChangesAsync() 
+        {
+            return await dbContext.SaveChangesAsync();
+        }
     }
 }
