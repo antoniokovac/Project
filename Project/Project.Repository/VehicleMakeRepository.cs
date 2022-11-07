@@ -1,13 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Project.Common;
+﻿using Project.Common;
 using Project.Model.DatabaseModels;
 using Project.Repository.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.Repository
 {
@@ -36,9 +30,9 @@ namespace Project.Repository
 
         public async Task<bool> CreateVehicleMake(VehicleMake vehicleMake)
         {
-            using (var unitOfWork = new UnitOfWork(repository)) 
+            using (var unitOfWork = new UnitOfWork(repository))
             {
-                var isCreated =  await unitOfWork.AddAsync<VehicleMake>(vehicleMake);
+                var isCreated = await unitOfWork.AddAsync<VehicleMake>(vehicleMake);
                 await unitOfWork.SaveChangesAsync();
                 return isCreated;
             }
@@ -48,16 +42,16 @@ namespace Project.Repository
         {
             using (var unitOfWork = new UnitOfWork(repository))
             {
-                var isUpdated =  unitOfWork.Update<VehicleMake>(vehicleMake);
+                var isUpdated = unitOfWork.Update<VehicleMake>(vehicleMake);
                 await unitOfWork.SaveChangesAsync();
                 return isUpdated;
             }
         }
 
-        public async Task<bool> DeleteVehicleMake(Guid id) 
+        public async Task<bool> DeleteVehicleMake(Guid id)
         {
             using (var unitOfWork = new UnitOfWork(repository))
-            { 
+            {
                 var make = await GetVehicleMake(id);
                 if (make is null)
                 {

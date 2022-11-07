@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Common;
 using Project.DAL;
-using Project.Model.DatabaseModels;
 using Project.Repository.Common;
 using System.Linq.Expressions;
 
@@ -33,7 +32,7 @@ namespace Project.Repository
 
             var sortedSet = query.SortOrder == SortOrder.Ascending ? filterSet.OrderBy(sort) : filterSet.OrderByDescending(sort);
 
-            var pagedSet = sortedSet.Skip((query.Page -1) * query.PageSize).Take(query.PageSize);
+            var pagedSet = sortedSet.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize);
 
 
             return await pagedSet.ToListAsync();
@@ -90,7 +89,7 @@ namespace Project.Repository
             return vehicle is not null;
         }
 
-        public async Task<int> SaveChangesAsync() 
+        public async Task<int> SaveChangesAsync()
         {
             return await dbContext.SaveChangesAsync();
         }

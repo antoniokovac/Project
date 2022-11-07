@@ -10,7 +10,7 @@ namespace Project.Repository
         public UnitOfWork(IGenericRepository repository)
         {
             this.repository = repository;
-            this.scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         }
 
         public Task<bool> AddAsync<T>(T entity) where T : class
@@ -36,7 +36,7 @@ namespace Project.Repository
 
         public void Dispose()
         {
-            this.scope.Dispose();
+            scope.Dispose();
         }
     }
 }

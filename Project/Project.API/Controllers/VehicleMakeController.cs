@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Common;
-using Project.Service;
 using Project.Service.Common;
-using System.Diagnostics;
-using System.Text.Json;
 
 namespace Project.WebAPI
 {
@@ -18,24 +15,20 @@ namespace Project.WebAPI
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllVehicleMakes( string filter,
+        public async Task<IActionResult> GetAllVehicleMakes(string filter,
             int page = 1,
             int pageSize = 10,
             SortOrder sortOrder = SortOrder.Ascending,
             SortBy sortBy = SortBy.Name)
         {
-            if (string.IsNullOrWhiteSpace(filter))             {
+            if (string.IsNullOrWhiteSpace(filter))
+            {
                 filter = string.Empty;
             }
-            //for(int i = 0; i <100; i++)
-            //{
-            //    var test = new VehicleMakeDTO { Id = Guid.NewGuid(), Name = $"Name_{i}", Abrv = $"Abrv_{i}" };
-            //    await service.CreateVehicleMake(test);
-            //}
             var pagedResult = new PageResult<VehicleMakeDTO>(filter, page, pageSize, sortOrder, sortBy);
             var vehicleMakes = await service.GetAllVehicleMakes(pagedResult.Query);
             pagedResult.Data = vehicleMakes;
-            return  Ok( pagedResult);
+            return Ok(pagedResult);
         }
 
         [HttpGet("[action]")]
@@ -47,7 +40,7 @@ namespace Project.WebAPI
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateVehicleMake( VehicleMakeDTO make)
+        public async Task<IActionResult> CreateVehicleMake(VehicleMakeDTO make)
         {
 
             var isCreated = await service.CreateVehicleMake(make);
@@ -68,10 +61,10 @@ namespace Project.WebAPI
             }
             return Ok(isUpdated);
         }
-        
+
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> DeleteVehicleMake( Guid id)
+        public async Task<IActionResult> DeleteVehicleMake(Guid id)
         {
 
             var isDeleted = await service.DeleteVehicleMake(id);

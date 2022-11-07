@@ -1,15 +1,8 @@
 ﻿using AutoMapper;
 using Project.Common;
 using Project.Model.DatabaseModels;
-using Project.Repository;
 using Project.Repository.Common;
 using Project.Service.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.Service
 {
