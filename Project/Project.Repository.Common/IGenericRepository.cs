@@ -20,7 +20,7 @@ namespace Project.Repository.Common
         /// <param name="page">Page number</param>
         /// <param name="sort">Sort expression</param>
         /// <returns></returns>
-        public List<T> GetAll<T>(Expression<Func<T, bool>> filter, Expression<Func<T, string>> sort, QueryParameters query) where T : class;
+        public Task<List<T>> GetAll<T>(Expression<Func<T, bool>> filter, Expression<Func<T, string>> sort, QueryParameters query) where T : class;
 
 
         /// <summary>

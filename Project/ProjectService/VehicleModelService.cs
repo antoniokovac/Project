@@ -7,6 +7,7 @@ using Project.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,9 +23,9 @@ namespace Project.Service
             this.repository = repository;
             this.mapper = mapper;
         }
-        public List<VehicleModelDTO> GetAllVehicleModels(QueryParameters query)
+        public async Task<List<VehicleModelDTO>> GetAllVehicleModels(QueryParameters query)
         {
-            var getAll = repository.GetAllVehicleModels(query);
+            var getAll = await repository.GetAllVehicleModels(query);
             return mapper.Map<List<VehicleModelDTO>>(getAll);
         }
         public async Task<VehicleModelDTO> GetVehicleModel(Guid id)
@@ -35,6 +36,7 @@ namespace Project.Service
 
         public async Task<bool> CreateVehicleModel(VehicleModelDTO vehicleModel)
         {
+            vehicleModel.Id = Guid.NewGuid();
             var vehicleModelDTO = mapper.Map<VehicleModel>(vehicleModel);
             return await repository.CreateVehicleModel(vehicleModelDTO);
 

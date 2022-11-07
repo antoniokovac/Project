@@ -22,9 +22,9 @@ namespace Project.Service
             this.repository = repository;
             this.mapper = mapper;
         }
-        public List<VehicleMakeDTO> GetAllVehicleMakes(QueryParameters query) 
+        public async Task<List<VehicleMakeDTO>> GetAllVehicleMakes(QueryParameters query) 
         {
-            var getAll = repository.GetAllVehicleMakes(query);
+            var getAll = await repository.GetAllVehicleMakes(query);
             return mapper.Map<List<VehicleMakeDTO>>(getAll);
         }
         public async Task<VehicleMakeDTO> GetVehicleMake(Guid id) 
@@ -35,6 +35,7 @@ namespace Project.Service
 
         public async Task<bool> CreateVehicleMake(VehicleMakeDTO vehicleMake) 
         {
+            vehicleMake.Id = Guid.NewGuid();
             var vehicleMakeDTO = mapper.Map<VehicleMake>(vehicleMake);
             return await repository.CreateVehicleMake(vehicleMakeDTO);
             

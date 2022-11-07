@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Common;
+using Project.DAL;
+using Project.Model.DatabaseModels;
 using Project.Repository.Common;
 using System.Linq.Expressions;
 
@@ -7,9 +9,9 @@ namespace Project.Repository
 {
     public class GenericRepository : IGenericRepository
     {
-        private readonly DbContext dbContext;
+        private readonly VehicleDbContext dbContext;
 
-        public GenericRepository(DbContext dbContext)
+        public GenericRepository(VehicleDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -23,16 +25,18 @@ namespace Project.Repository
         /// <param name="page">Page number</param>
         /// <param name="sort">Sort expression</param>
         /// <returns></returns>
-        public List<T> GetAll<T>(Expression<Func<T, bool>> filter, Expression<Func<T, string>> sort, QueryParameters query) where T : class
+        public async Task<List<T>> GetAll<T>(Expression<Func<T, bool>> filter, Expression<Func<T, string>> sort, QueryParameters query) where T : class
         {
             var filterSet = dbContext.Set<T>()
                 .AsNoTracking()
                 .Where(filter);
-            var pagingSet = filterSet.Skip(query.PageSize).Take(query.Page);
 
-            var sortedSet = query.SortOrder == SortOrder.Ascending ? pagingSet.OrderBy(sort) : pagingSet.OrderByDescending(sort);
+            var sortedSet = query.SortOrder == SortOrder.Ascending ? filterSet.OrderBy(sort) : filterSet.OrderByDescending(sort);
 
-            return sortedSet.ToList();
+            var pagedSet = sortedSet.Skip((query.Page -1) * query.PageSize).Take(query.PageSize);
+
+
+            return await pagedSet.ToListAsync();
         }
 
         /// <summary>

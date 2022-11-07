@@ -19,11 +19,11 @@ namespace Project.Repository
             this.repository = repository;
         }
 
-        public List<VehicleMake> GetAllVehicleMakes(QueryParameters query)
+        public async Task<List<VehicleMake>> GetAllVehicleMakes(QueryParameters query)
         {
-            Expression<Func<VehicleMake, bool>> filterExpression = x => x.Name.Equals(query.Filter, StringComparison.InvariantCultureIgnoreCase);
+            Expression<Func<VehicleMake, bool>> filterExpression = x => x.Name.ToLower().Contains(query.Filter.ToLower());
             Expression<Func<VehicleMake, string>> sortExpresion = query.SortBy == SortBy.Name ? x => x.Name : x => x.Abrv;
-            var vehicleMakes = repository.GetAll(filterExpression, sortExpresion, query);
+            var vehicleMakes = await repository.GetAll(filterExpression, sortExpresion, query);
 
             return vehicleMakes;
         }
@@ -64,6 +64,7 @@ namespace Project.Repository
                     return false;
                 }
                 var isDelted = unitOfWork.Delete<VehicleMake>(make);
+                await unitOfWork.SaveChangesAsync();
                 return isDelted;
             }
         }

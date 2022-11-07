@@ -27,13 +27,13 @@ namespace Project.Repository
         /// <param name="page">Page number</param>
         /// <param name="sort">Sort expression</param>
         /// <returns></returns>
-        public List<VehicleModel> GetAllVehicleModels(QueryParameters query)
+        public async Task<List<VehicleModel>> GetAllVehicleModels(QueryParameters query)
         {
-            Expression<Func<VehicleModel, bool>> filterExpression = x => x.Name.Equals(query.Filter, StringComparison.InvariantCultureIgnoreCase);
+            Expression<Func<VehicleModel, bool>> filterExpression = x => x.Name.ToLower().Contains(query.Filter.ToLower());
             Expression<Func<VehicleModel, string>> sortExpresion = query.SortBy == SortBy.Name ? x => x.Name : x => x.Abrv;
-            var vehicleModel = repository.GetAll(filterExpression, sortExpresion, query);
+            var vehicleModels = await repository.GetAll(filterExpression, sortExpresion, query);
 
-            return vehicleModel;
+            return vehicleModels;
         }
 
         /// <summary>
@@ -97,6 +97,7 @@ namespace Project.Repository
                     return false;
                 }
                 var isDelted = unitOfWork.Delete<VehicleModel>(model);
+                await unitOfWork.SaveChangesAsync();
                 return isDelted;
             }
         }

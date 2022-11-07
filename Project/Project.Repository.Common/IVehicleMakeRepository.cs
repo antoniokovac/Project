@@ -10,7 +10,7 @@ namespace Project.Repository.Common
 {
     public interface IVehicleMakeRepository
     {
-        public List<VehicleMake> GetAllVehicleMakes(QueryParameters query);
+        public Task<List<VehicleMake>> GetAllVehicleMakes(QueryParameters query);
         public Task<VehicleMake> GetVehicleMake(Guid id);
 
         public Task<bool> CreateVehicleMake(VehicleMake vehicleMake);

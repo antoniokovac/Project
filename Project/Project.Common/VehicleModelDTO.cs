@@ -13,5 +13,7 @@ namespace Project.Common
         public string Name { get; set; }
 
         public string Abrv { get; set; }
+
+        public Guid VehicleMakeId { get; set; }
     }
 }

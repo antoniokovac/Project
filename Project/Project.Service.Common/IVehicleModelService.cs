@@ -9,7 +9,7 @@ namespace Project.Service.Common
 {
     public interface IVehicleModelService
     {
-        public List<VehicleModelDTO> GetAllVehicleModels(QueryParameters query);
+        public Task<List<VehicleModelDTO>> GetAllVehicleModels(QueryParameters query);
 
         public Task<VehicleModelDTO> GetVehicleModel(Guid id);
 

@@ -9,7 +9,7 @@ namespace Project.Service.Common
 {
     public interface IVehicleMakeService
     {
-        public List<VehicleMakeDTO> GetAllVehicleMakes(QueryParameters query);
+        public Task<List<VehicleMakeDTO>> GetAllVehicleMakes(QueryParameters query);
         public  Task<VehicleMakeDTO> GetVehicleMake(Guid id);
 
         public  Task<bool> CreateVehicleMake(VehicleMakeDTO vehicleMake);
