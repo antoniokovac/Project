@@ -16,6 +16,8 @@ namespace Project.Common
             SortOrder = sortOrder;
             SortBy = sortBy;
         }
+        public QueryParameters()
+        { }
         public string Filter { get; } = string.Empty;
         public int Page { get; } = 1;
         public int PageSize { get; } = 10;
