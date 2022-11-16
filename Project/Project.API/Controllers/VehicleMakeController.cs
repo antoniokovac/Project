@@ -15,7 +15,7 @@ namespace Project.WebAPI
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllVehicleMakes(string filter,
+        public async Task<IActionResult> GetAllVehicleMakes(string filter = "",
             int page = 1,
             int pageSize = 10,
             SortOrder sortOrder = SortOrder.Ascending,
@@ -35,7 +35,10 @@ namespace Project.WebAPI
         public async Task<IActionResult> GetVehicleMake([FromQuery] Guid id)
         {
             var vehicleMake = await service.GetVehicleMake(id);
-
+            if (vehicleMake == null) 
+            {
+                return StatusCode(204);
+            }
             return Ok(vehicleMake);
         }
 
