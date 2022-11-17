@@ -27,18 +27,18 @@ namespace Project.Service
             return mapper.Map<VehicleMakeDTO>(getVehicle);
         }
 
-        public async Task<bool> CreateVehicleMake(VehicleMakeDTO vehicleMake)
+        public async Task<bool> CreateVehicleMake(VehicleMakeDTO vehicleMakeDTO)
         {
-            vehicleMake.Id = Guid.NewGuid();
-            var vehicleMakeDTO = mapper.Map<VehicleMake>(vehicleMake);
-            return await repository.CreateVehicleMake(vehicleMakeDTO);
+            vehicleMakeDTO.Id = Guid.NewGuid();
+            var vehicleMake = mapper.Map<VehicleMake>(vehicleMakeDTO);
+            return await repository.CreateVehicleMake(vehicleMake);
 
         }
 
-        public async Task<bool> UpdateVehicleMake(VehicleMakeDTO vehicleMake)
+        public async Task<bool> UpdateVehicleMake(VehicleMakeDTO vehicleMakeDTO)
         {
-            var vehicleMakeDTO = mapper.Map<VehicleMake>(vehicleMake);
-            return await repository.UpdateVehicleMake(vehicleMakeDTO);
+            var vehicleMake = mapper.Map<VehicleMake>(vehicleMakeDTO);
+            return await repository.UpdateVehicleMake(vehicleMake);
         }
 
         public Task<bool> DeleteVehicleMake(Guid id)

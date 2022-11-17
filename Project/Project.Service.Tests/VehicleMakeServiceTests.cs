@@ -53,56 +53,61 @@ namespace Project.Service.Tests
             Assert.NotNull(vehicleMake);
             Assert.Equal(vehicleMakeId, vehicleMake.Id);
         }
-        //[Fact]
-        //public async Task CreateVehicleMake_ValidRequest_ReturnsTrue()
-        //{
-        //    var testMockObject = new TestMockObject();
+        [Fact]
+        public async Task CreateVehicleMake_ValidRequest_ReturnsTrue()
+        {
+            var testMockObject = new TestMockObject();
 
-        //    var vehicleMakeInstance = new VehicleMake { Id = Guid.NewGuid() };
+            var vehicleMakeDTOInstance = new VehicleMakeDTO();
+            var vehicleMakeInstance = new VehicleMake();
 
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Create<VehicleMake>(vehicleMakeInstance))
-        //        .ReturnsAsync(true);
-        //    var createdVehicleMake = await testMockObject.VehicleMakeRepository.CreateVehicleMake(vehicleMakeInstance);
+            testMockObject.MockVehicleMakeRepository
+                .Setup(x => x.CreateVehicleMake(vehicleMakeInstance))
+                .ReturnsAsync(true);
+            testMockObject.MockMapper
+                .Setup(x => x.Map<VehicleMake>(vehicleMakeDTOInstance))
+                .Returns((VehicleMake input) => new VehicleMake { Id = input.Id });
 
-        //    Assert.True(createdVehicleMake);
-        //}
+            var createdVehicleMake = await testMockObject.VehicleMakeService.CreateVehicleMake(vehicleMakeDTOInstance);
 
-        //[Fact]
-        //public async Task UpdateVehicleMake_ValidRequest_ReturnsTrue()
-        //{
-        //    var testMockObject = new TestMockObject();
+            Assert.True(createdVehicleMake);
+        }
 
-        //    var vehicleMakeInstance = new VehicleMake { Id = Guid.NewGuid() };
+        [Fact]
+        public async Task UpdateVehicleMake_ValidRequest_ReturnsTrue()
+        {
+            var testMockObject = new TestMockObject();
 
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Update<VehicleMake>(vehicleMakeInstance))
-        //        .Returns(true);
-        //    var updatedVehicleMake = await testMockObject.VehicleMakeRepository.UpdateVehicleMake(vehicleMakeInstance);
+            var vehicleMakeInstance = new VehicleMake { Id = Guid.NewGuid() };
+            var vehicleMakeDTOInstance = new VehicleMakeDTO { Id = vehicleMakeInstance.Id };
 
-        //    Assert.True(updatedVehicleMake);
-        //}
+            testMockObject.MockVehicleMakeRepository
+                .Setup(x => x.UpdateVehicleMake(vehicleMakeInstance))
+                .ReturnsAsync(true);
 
-        //[Fact]
-        //public async Task DeletedVehicleMake_ValidRequest_ReturnsTrue()
-        //{
-        //    var testMockObject = new TestMockObject();
+            testMockObject.MockMapper
+                .Setup(x => x.Map<VehicleMakeDTO>(vehicleMakeInstance))
+                .Returns(vehicleMakeDTOInstance);
+            var updatedVehicleMake = await testMockObject.VehicleMakeService.UpdateVehicleMake(vehicleMakeDTOInstance);
 
-        //    var vehicleMakeId = Guid.NewGuid();
-        //    var fetchedVehicleMake = new VehicleMake { Id = vehicleMakeId, Abrv = "Abrv", Name = "Name" };
+            Assert.True(updatedVehicleMake);
+        }
 
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Get<VehicleMake>(vehicleMakeId))
-        //        .ReturnsAsync(fetchedVehicleMake);
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Delete<VehicleMake>(fetchedVehicleMake))
-        //        .Returns(true);
+        [Fact]
+        public void DeleteVehicleMake_ValidRequest_ReturnsTrue()
+        {
+            var testMockObject = new TestMockObject();
+            var vehicleMakeId = Guid.NewGuid();
+            var databaseResponse = new VehicleMake { Id = vehicleMakeId };
 
-        //    var deletedVehicleMake = await testMockObject.VehicleMakeRepository.DeleteVehicleMake(vehicleMakeId);
+            testMockObject.MockVehicleMakeRepository
+                .Setup(x => x.DeleteVehicleMake(vehicleMakeId))
+                .ReturnsAsync(true);
 
-        //    Assert.True(deletedVehicleMake);
-        //}
+            var vehicleMake = testMockObject.VehicleMakeService.DeleteVehicleMake(vehicleMakeId);
 
+            Assert.True(vehicleMake.Result);
+        }
     }
     public class TestMockObject
     {

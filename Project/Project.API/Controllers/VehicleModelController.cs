@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Common;
+using Project.Model.DatabaseModels;
 using Project.Service.Common;
 
 namespace Project.WebAPI
@@ -15,7 +16,7 @@ namespace Project.WebAPI
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllVehicleModels(string filter,
+        public async Task<IActionResult> GetAllVehicleModels(string filter = "",
             int page = 1,
             int pageSize = 10,
             SortOrder sortOrder = SortOrder.Ascending,
@@ -37,7 +38,10 @@ namespace Project.WebAPI
         public async Task<IActionResult> GetVehicleModel(Guid id)
         {
             var vehicleModel = await service.GetVehicleModel(id);
-
+            if (vehicleModel == null)
+            {
+                return StatusCode(204);
+            }
             return Ok(vehicleModel);
         }
 

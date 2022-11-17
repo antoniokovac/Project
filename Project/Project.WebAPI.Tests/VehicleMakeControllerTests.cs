@@ -56,7 +56,7 @@ namespace Project.WebAPI.Tests
             var response = await mockData.Controller.GetVehicleMake(default);
             var statusCode = response as StatusCodeResult;
             Assert.NotNull(statusCode);
-            Assert.Equal(statusCode.StatusCode, 204);
+            Assert.Equal(204,statusCode.StatusCode) ;
         }
         [Fact]
         public async Task CreateVehicleMake_ValidRequest_200Status()
@@ -89,40 +89,66 @@ namespace Project.WebAPI.Tests
             Assert.False((bool)BadRequestObjectResult.Value);
         }
 
-        //[Fact]
-        //public async Task UpdateVehicleMake_ValidRequest_ReturnsTrue()
-        //{
-        //    var testMockObject = new TestMockObject();
+        [Fact]
+        public async Task UpdateVehicleMake_ValidRequest_204Status()
+        {
+            var mockData = new MockData();
+            var vehicleMake = new VehicleMakeDTO();
 
-        //    var vehicleMakeInstance = new VehicleMake { Id = Guid.NewGuid() };
+            mockData.MockService
+                .Setup(x => x.UpdateVehicleMake(It.IsAny<VehicleMakeDTO>()))
+                .ReturnsAsync(true);
 
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Update<VehicleMake>(vehicleMakeInstance))
-        //        .Returns(true);
-        //    var updatedVehicleMake = await testMockObject.VehicleMakeRepository.UpdateVehicleMake(vehicleMakeInstance);
+            var response = await mockData.Controller.UpdateVehicleMake(vehicleMake);
+            var okObjectResult = response as OkObjectResult;
+            Assert.NotNull(okObjectResult);
+            Assert.True((bool)okObjectResult.Value);
+        }
+        [Fact]
+        public async Task UpdateVehicleMake_ValidRequest_BadRequest()
+        {
+            var mockData = new MockData();
+            var vehicleMake = new VehicleMakeDTO();
 
-        //    Assert.True(updatedVehicleMake);
-        //}
+            mockData.MockService
+                .Setup(x => x.UpdateVehicleMake(It.IsAny<VehicleMakeDTO>()))
+                .ReturnsAsync(false);
 
-        //[Fact]
-        //public async Task DeletedVehicleMake_ValidRequest_ReturnsTrue()
-        //{
-        //    var testMockObject = new TestMockObject();
+            var response = await mockData.Controller.UpdateVehicleMake(vehicleMake);
+            var BadRequestObjectResult = response as BadRequestObjectResult;
+            Assert.NotNull(BadRequestObjectResult);
+            Assert.False((bool)BadRequestObjectResult.Value);
+        }
+        [Fact]
+        public async Task DeleteVehicleMake_ValidRequest_204Status()
+        {
+            var mockData = new MockData();
+            var vehicleMakeId =  Guid.NewGuid();
 
-        //    var vehicleMakeId = Guid.NewGuid();
-        //    var fetchedVehicleMake = new VehicleMake { Id = vehicleMakeId, Abrv = "Abrv", Name = "Name" };
+            mockData.MockService
+                .Setup(x => x.DeleteVehicleMake(It.IsAny<Guid>()))
+                .ReturnsAsync(true);
 
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Get<VehicleMake>(vehicleMakeId))
-        //        .ReturnsAsync(fetchedVehicleMake);
-        //    testMockObject.MockGenericRepository
-        //        .Setup(x => x.Delete<VehicleMake>(fetchedVehicleMake))
-        //        .Returns(true);
+            var response = await mockData.Controller.DeleteVehicleMake(vehicleMakeId);
+            var okObjectResult = response as OkObjectResult;
+            Assert.NotNull(okObjectResult);
+            Assert.True((bool)okObjectResult.Value);
+        }
+        [Fact]
+        public async Task DeleteVehicleMake_ValidRequest_BadRequest()
+        {
+            var mockData = new MockData();
+            var vehicleMakeId = Guid.NewGuid();
 
-        //    var deletedVehicleMake = await testMockObject.VehicleMakeRepository.DeleteVehicleMake(vehicleMakeId);
+            mockData.MockService
+                .Setup(x => x.DeleteVehicleMake(It.IsAny<Guid>()))
+                .ReturnsAsync(false);
 
-        //    Assert.True(deletedVehicleMake);
-        //}
+            var response = await mockData.Controller.DeleteVehicleMake(vehicleMakeId);
+            var BadRequestObjectResult = response as BadRequestObjectResult;
+            Assert.NotNull(BadRequestObjectResult);
+            Assert.False((bool)BadRequestObjectResult.Value);
+        }
     }
     public class MockData
     {
