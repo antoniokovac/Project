@@ -58,7 +58,7 @@ namespace Project.Service.Tests
         {
             var testMockObject = new TestMockObject();
 
-            var vehicleMakeDTOInstance = new VehicleMakeDTO();
+            var vehicleMakeDTOInstance = new VehicleMakeDTO() {Abrv ="a", Name = "n" };
             var vehicleMakeInstance = new VehicleMake();
 
             testMockObject.MockVehicleMakeRepository
@@ -66,7 +66,7 @@ namespace Project.Service.Tests
                 .ReturnsAsync(true);
             testMockObject.MockMapper
                 .Setup(x => x.Map<VehicleMake>(vehicleMakeDTOInstance))
-                .Returns((VehicleMake input) => new VehicleMake { Id = input.Id });
+                .Returns(vehicleMakeInstance);
 
             var createdVehicleMake = await testMockObject.VehicleMakeService.CreateVehicleMake(vehicleMakeDTOInstance);
 
@@ -76,18 +76,18 @@ namespace Project.Service.Tests
         [Fact]
         public async Task UpdateVehicleMake_ValidRequest_ReturnsTrue()
         {
-            var testMockObject = new TestMockObject();
+            var testMockObject = new TestMockObject() ;
 
-            var vehicleMakeInstance = new VehicleMake { Id = Guid.NewGuid() };
-            var vehicleMakeDTOInstance = new VehicleMakeDTO { Id = vehicleMakeInstance.Id };
+            var vehicleMakeDTOInstance = new VehicleMakeDTO() { Abrv = "a", Name = "n" };
+            var vehicleMakeInstance = new VehicleMake();
 
             testMockObject.MockVehicleMakeRepository
                 .Setup(x => x.UpdateVehicleMake(vehicleMakeInstance))
                 .ReturnsAsync(true);
 
             testMockObject.MockMapper
-                .Setup(x => x.Map<VehicleMakeDTO>(vehicleMakeInstance))
-                .Returns(vehicleMakeDTOInstance);
+                .Setup(x => x.Map<VehicleMake>(vehicleMakeDTOInstance))
+                .Returns(vehicleMakeInstance);
             var updatedVehicleMake = await testMockObject.VehicleMakeService.UpdateVehicleMake(vehicleMakeDTOInstance);
 
             Assert.True(updatedVehicleMake);
