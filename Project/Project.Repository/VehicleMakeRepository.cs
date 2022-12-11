@@ -24,7 +24,7 @@ namespace Project.Repository
 
         public async Task<VehicleMake> GetVehicleMake(Guid id)
         {
-            var vehicle = await repository.Get<VehicleMake>(id);
+            var vehicle = await repository.GetAsync<VehicleMake>(id);
             return vehicle;
         }
 

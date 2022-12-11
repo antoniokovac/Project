@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {observable, configure, action} from 'mobx'
+import { observer } from 'mobx-react'
+import { BrowserRouter, Route } from 'react-router-dom';
 
 const App = () => {
     return(
@@ -9,4 +12,9 @@ const App = () => {
         </div>
     )
 }
-ReactDOM.render(<App />, document.getElementById("root"))
+
+ReactDOM.render((  
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+    ),document.getElementById("root"))

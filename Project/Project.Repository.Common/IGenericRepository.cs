@@ -24,7 +24,7 @@ namespace Project.Repository.Common
         /// <typeparam name="T">Type of entity that will be returned </typeparam>
         /// <param name="id">Entity ID</param>
         /// <returns></returns>
-        public Task<T> Get<T>(Guid id) where T : class;
+        public Task<T> GetAsync<T>(Guid id) where T : class;
 
         /// <summary>
         /// Adds entity to database
@@ -32,7 +32,7 @@ namespace Project.Repository.Common
         /// <typeparam name="T">Type of entity that will be returned</typeparam>
         /// <param name="entity">Entity to be added</param>
         /// <returns>Returns true if entity is added, false otherwise</returns>
-        public Task<bool> Create<T>(T entity) where T : class;
+        public Task<bool> CreateAsync<T>(T entity) where T : class;
 
         /// <summary>
         /// Updates entity in database
