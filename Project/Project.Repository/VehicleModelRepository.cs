@@ -39,7 +39,7 @@ namespace Project.Repository
         /// <returns></returns>
         public async Task<VehicleModel> GetVehicleModel(Guid id)
         {
-            var vehicle = await repository.Get<VehicleModel>(id);
+            var vehicle = await repository.GetAsync<VehicleModel>(id);
             return vehicle;
         }
 

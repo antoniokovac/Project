@@ -15,7 +15,7 @@ namespace Project.Repository
 
         public Task<bool> AddAsync<T>(T entity) where T : class
         {
-            return repository.Create<T>(entity);
+            return repository.CreateAsync<T>(entity);
         }
 
         public bool Delete<T>(T entity) where T : class

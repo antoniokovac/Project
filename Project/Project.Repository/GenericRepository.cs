@@ -44,7 +44,7 @@ namespace Project.Repository
         /// <typeparam name="T">Type of entity that will be returned </typeparam>
         /// <param name="id">Entity ID</param>
         /// <returns></returns>
-        public async Task<T> Get<T>(Guid id) where T : class
+        public async Task<T> GetAsync<T>(Guid id) where T : class
         {
             var vehicle = await dbContext.Set<T>().FindAsync(id);
             return vehicle;
@@ -56,7 +56,7 @@ namespace Project.Repository
         /// <typeparam name="T">Type of entity that will be returned</typeparam>
         /// <param name="entity">Entity to be added</param>
         /// <returns>Returns true if entity is added, false otherwise</returns>
-        public async Task<bool> Create<T>(T entity) where T : class
+        public async Task<bool> CreateAsync<T>(T entity) where T : class
         {
             var vehicle = await dbContext.Set<T>().AddAsync(entity);
 
