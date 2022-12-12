@@ -60,12 +60,6 @@ namespace Project.Repository
             }
         }
 
-        /// <summary>
-        /// Updates entity in database
-        /// </summary>
-        /// <typeparam name="T">Type of entity that will be returned</typeparam>
-        /// <param name="entity">Entity to be updated</param>
-        /// <returns>Returns true if entity is updated, false otherwise</returns>
         public async Task<bool> UpdateVehicleModel(VehicleModel vehicleModel)
         {
             using (var unitOfWork = new UnitOfWork(repository))
@@ -76,12 +70,6 @@ namespace Project.Repository
             }
         }
 
-        /// <summary>
-        /// Deletes entity in database
-        /// </summary>
-        /// <typeparam name="T">Type of entity that will be returned</typeparam>
-        /// <param name="model">Entity to be deleted</param>
-        /// <returns>Returns true if entity is deleted, false otherwise</returns>
         public async Task<bool> DeleteVehicleModel(Guid id)
         {
             using (var unitOfWork = new UnitOfWork(repository))
